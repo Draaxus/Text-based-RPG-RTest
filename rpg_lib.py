@@ -22,14 +22,14 @@ class Game:
             
             userInput = str(input("What would you like to do: ")).lower()
 
-            try:
-                match userInput:
-                    case "quit":
-                        break
-                    case other:
-                        self.process(userInput)
-            except:
-                print("An error has occured. But you can still play the game.")
+            # try:
+            match userInput:
+                case "quit":
+                    break
+                case other:
+                    self.process(userInput)
+            # except:
+            #     print("An error has occured. But you can still play the game.")
 
     def process(self, userInput:str) -> None:
         arguments = userInput.split(" ")
@@ -387,6 +387,8 @@ class EnemyQuestion(Enemy):
                 print("Game over!")
                 break
 
+            print("{} is going to attack you! Answer this question to attack this enemy back!".format(self.name))
+
             self.questionHandler.set_current_question_random()
             print()
             self.questionHandler.prompt_question()
@@ -468,7 +470,7 @@ class Location:
         
         for i in enemies:
             print()
-            print("{} is going to attack you! Answer this question to attack this enemy back!".format(i.name))
+            # print("{} is going to attack you! Answer this question to attack this enemy back!".format(i.name))
             i.behavior(player)
 
     def describe(self, player:Type[Player]) -> None:
@@ -492,8 +494,8 @@ class Location:
         
         print(generalDescribe)
 
-        if self.entities != []:
-            self.activate(player)
+        # if self.entities != []:
+        #     self.activate(player)
 
     #
 
