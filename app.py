@@ -94,14 +94,17 @@ class TestItem(Item):
 
 #kitchen.add_item_on_ground(testQuestItem)
 
-    questionHandler = QuestionHandler()
+    ghostQuestions = QuestionHandler()
+    zombieQuestions = QuestionHandler()
+    sideQuest = QuestionHandler()
+    finalBoss = QuestionHandler()
     ghostQuestion = Question("What's 1 + 1?", "2")
     zombieQuestion = Question("What's 42 in binary?", "101010")
-    questionHandler.add_question(ghostQuestion)
-    questionHandler.add_question(zombieQuestion)
+    ghostQuestions.add_question(ghostQuestion)
+    zombieQuestions.add_question(zombieQuestion)
 
-    ghost = EnemyQuestion(1, "What seems to be a person flailing around under a blanket", 1, questionHandler)
-    zombie = EnemyQuestion(2, "Somebody with terrible cuts all over their body", 1, questionHandler)
+    ghost = EnemyQuestion(1, "What seems to be a person flailing around under a blanket", 1, ghostQuestions)
+    zombie = EnemyQuestion(2, "Somebody with terrible cuts all over their body", 1, zombieQuestions)
     livingRoom.add_entity_on_location(ghost)
     kitchen.add_entity_on_location(zombie)
 
