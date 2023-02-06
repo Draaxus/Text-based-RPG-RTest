@@ -398,7 +398,7 @@ class EnemyQuestion(Enemy):
                 # right
                 print()
                 print("Correct!")
-                print(self.currentHealth)
+                # print(self.currentHealth)
                 print()
                 self.take_damage(1)
             else:
@@ -420,6 +420,7 @@ class QuestionHandler:
     
     def set_current_question_random(self) -> None:
         self.currentQuestion = choice(self.questions)
+        self.questions.remove(self.currentQuestion)
 
     def prompt_question(self) -> None:
         print(self.currentQuestion.get_question())
@@ -431,7 +432,7 @@ class QuestionHandler:
     
     def add_question(self, question:Type[Question]) -> None:
         self.questions.append(question)
-    
+
     def add_questions(self, question:list[Type[Question]]) -> None:
         self.questions.extend(question)
 
