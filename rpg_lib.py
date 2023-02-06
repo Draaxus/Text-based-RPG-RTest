@@ -56,12 +56,12 @@ class Game:
         # print(self.player.currentLocation.entities)
         self.player.currentLocation.describe(self.player)
         direction = ["north", "east", "south", "west"]
-        print("places to go...")
+        print("Places to go...")
         for i in direction:
             loc:Type[Location] = self.player.currentLocation.get_location(i)
             if loc != None:
                 print("{}: {}".format(i, loc.get_name()))
-    
+
     def check_player_alive(self) -> bool:
         if self.player.get_health() <= 0:
             return False
@@ -174,7 +174,7 @@ class Player:
                     self.currentLocation = i
                     print("You've gone to {}".format(self.currentLocation.name))
                     return None
-                print("There's no such location.")
+                #print("There's no such location.")
     
     def set_current_location(self, location:Type[Location]) -> None:
         self.currentLocation = location
@@ -210,9 +210,9 @@ class Entity:
 class NPC(Entity):
     def __init__(self, id: int, name: str, occupation:str) -> None:
         self.occupation = occupation
-        self.quest:Type[Quest] = None
-        self.defaultDialogue:list[str] = []
-        self.thanksDialogue:str = ""
+        self.quest: Type[Quest] = None
+        self.defaultDialogue: list[str] = []
+        self.thanksDialogue: str = ""
         super().__init__(id, name)
     
     def add_dialogue(self, message:str) -> None:
@@ -227,13 +227,13 @@ class NPC(Entity):
     def set_thanks_dialogue(self, message:str) -> None:
         self.thanksDialogue = message
 
-    def set_quest(self, quest:Type[Quest]) -> None:
+    def set_quest(self, quest: Type[Quest]) -> None:
         self.quest = quest
 
-    def behavior(self, player:Type[Player]) -> None:
+    def behavior(self, player: Type[Player]) -> None:
         self.talk(player)
     
-    def talk(self, player:Type[Player]) -> None:
+    def talk(self, player: Type[Player]) -> None:
         if self.quest.check_conditions(player=player):
             if not self.quest.get_done():
                 self.quest.set_done(isDone=True)
@@ -318,12 +318,12 @@ class QuestItem(Item):
 #
 
 class Enemy(Entity):
-    def __init__(self, id: int, name: str, health:Union[float, int]) -> None:
-        self.currentHealth:Union[float, int] = health
-        self.maxHealth:Union[float, int] = health
+    def __init__(self, id: int, name: str, health: Union[float, int]) -> None:
+        self.currentHealth: Union[float, int] = health
+        self.maxHealth: Union[float, int] = health
         super().__init__(id, name)
     
-    def behavior(self, player:Type[Player]) -> None:
+    def behavior(self, player: Type[Player]) -> None:
         return super().behavior()
 
     # How the enemy will take damage.
@@ -338,9 +338,10 @@ class Enemy(Entity):
 
 class EnemyQuestion(Enemy):
     def __init__(self, id: int, name: str, health: Union[float, int], questionHandler:Type[QuestionHandler]) -> None:
-        self.questionHandler:Type[QuestionHandler] = questionHandler
+        self.questionHandler: Type[QuestionHandler] = questionHandler
         self.dialogue:list[str] = []
         super().__init__(id, name, health)
+        self.currentHealth: Union[float, int] = health
     
     def behavior(self, player:Type[Player]) -> None:
         self.prompt_dialogue()
@@ -354,7 +355,7 @@ class EnemyQuestion(Enemy):
             return False
         return True
 
-    def take_damage(self, amount:Union[float, int]) -> None:
+    def take_damage(self, amount: Union[float, int]) -> None:
         self.currentHealth -= amount
     
     #
@@ -376,7 +377,7 @@ class EnemyQuestion(Enemy):
             print(i + '\n')
 
     # The attack should be prompting a question.
-    def attack(self, player:Type[Player]) -> None:
+    def attack(self, player: Type[Player]) -> None:
         while True:
             if not self.check_alive():
                 break
@@ -395,6 +396,7 @@ class EnemyQuestion(Enemy):
                 # right
                 print()
                 print("Correct!")
+                print(self.currentHealth)
                 print()
                 self.take_damage(1)
             else:
@@ -473,7 +475,7 @@ class Location:
         currentEntities:dict[str, str] = {}
         for i in self.entities:
             if type(i) is NPC:
-                currentEntities.update({i.name:"a/an {} by the named".format(i.occupation)})
+                currentEntities.update({i.name:"a/an {} by the name".format(i.occupation)})
         
         currentItems:list[str] = []
         for i in self.items:
@@ -484,9 +486,9 @@ class Location:
         generalDescribe:str = self.description
 
         if currentEntities != {}:
-            generalDescribe += ".\nEntities being {}".format(entitiesDescribe)
+            generalDescribe += ".\nYou see someone, {}".format(entitiesDescribe)
         if currentItems != []:
-            generalDescribe += ".\nThere is {}.".format(itemsDescribe)
+            generalDescribe += ".\nThere is a/an {} in the area.".format(itemsDescribe)
         
         print(generalDescribe)
 
@@ -547,15 +549,21 @@ class Location:
     def get_name(self) -> str:
         return self.name
 
+    def remove_enemy_on_location(self, enemies:list[Type[Enemy]]) -> None:
+        self.enemies.remove(Enemy)
+
     def add_item_on_ground(self, item:Type[Item]) -> None:
         self.items.append(item)
     
-    def add_items_on_gruond(self, items:list[Type[Item]]) -> None:
+    def add_items_on_ground(self, items:list[Type[Item]]) -> None:
         self.items.extend(items)
     
     def add_entity_on_location(self, entity:Type[Entity]) -> None:
         self.entities.append(entity)
-    
+
+    def remove_entity_on_location(self, entity:Type[Entity]) -> None:
+        self.entities.remove(entity)
+
     def add_entities_on_location(self, entities:list[Type[Entity]]) -> None:
         self.entities.extend(entities)
 
