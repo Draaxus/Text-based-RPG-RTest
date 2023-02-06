@@ -4,12 +4,14 @@ from typing import Type
 yourBedroom = Location(id=0, name="your bedroom", description="This is your cozy little bedroom.", items=[], entities=[])
 livingRoom = Location(id=1, name="the living room", description="You enter the living room you've known all your life, it seems to be in disarray.", items=[], entities=[])
 kitchen = Location(id=2, name="the kitchen", description="You enter the kitchen opposite of the living room, it's a mess.", items=[], entities=[])
-attic = Location(id=3, name="the attic", description="You feel a strange presence from the ladder to the attic. You get the feeling the source of all this strangeness is coming from up here.", items=[], entities=[])
+attic = Location(id=3, name="the attic", description="You've eliminated the Lesser Demon, the source of all this. \nCheck the window to see the state of the world.", items=[], entities=[])
+window = Location (id=4,name="the attic window", description="A blinding light fills your vision. \nIt was all a dream. \nThe end.", items=[], entities=[])
 yourBedroom.change_west(livingRoom)
 yourBedroom.change_east(kitchen)
 livingRoom.change_south(attic)
 livingRoom.change_east(yourBedroom)
 kitchen.change_west(yourBedroom)
+attic.change_north(window)
 player = Player(1, "test", 3, yourBedroom)
 
 class GoLogic(Logic):
@@ -68,33 +70,13 @@ class TalkLogic(Logic):
                 print()
                 i.behavior(player)
 
-class TestItem(Item):
+class Potion(Item):
     def __init__(self, id: int, name: str) -> None:
         super().__init__(id, name)
     
     def use(self, player: Type[Player]) -> None:
-        print("hello, world!")
+        player.add_health(amount=2)
 
-#livingRoom.add_item_on_ground(TestItem(1, "test item"))
-
-
-#testNPC = NPC(1, "John Doe", "Villager")
-#testNPC.add_dialogue("Hello there!")
-#testNPC.set_thanks_dialogue("Thank you so much! Here, take this test reward item.")
-#livingRoom.add_entity_on_location(testNPC)
-#testReward = Item(2, "test reward item")
-
-
-#testQuestItem = QuestItem(1, "test quest item")
-#kitchen.add_item_on_ground(testQuestItem)
-
-
-#testQuest = Quest(questItem=testQuestItem, rewardItem=testReward)
-#testNPC.set_quest(testQuest)
-
-#testQuest.add_quest_dialogue("I need an item called test quest item. For it, I will give you test reward item.")
-
-#kitchen.add_item_on_ground(testQuestItem)
 
     ghostQuestions = QuestionHandler()
     zombieQuestions = QuestionHandler()
@@ -102,20 +84,27 @@ class TestItem(Item):
     finalBoss = QuestionHandler()
     ghostQuestion = Question("What's 1 + 1?", "2")
     zombieQuestion = Question("What's 42 in binary?", "101010")
+    finalBossQuestion1 = Question("What year is it?", "2023")
+    finalBossQuestion2 = Question("What is Obama's last name?", "Obama")
+    finalBossQuestion3 = Question("Who the hell is Steve Jobs?", "Ligma Balls")
+    FBQs = [finalBossQuestion1,finalBossQuestion2,finalBossQuestion3]
     ghostQuestions.add_question(ghostQuestion)
     zombieQuestions.add_question(zombieQuestion)
+    finalBoss.add_questions(FBQs)
 
     ghost = EnemyQuestion(1, "What seems to be a person flailing around under a blanket", 1, ghostQuestions)
     zombie = EnemyQuestion(2, "Somebody with terrible cuts all over their body", 1, zombieQuestions)
+    lesserDemon = EnemyQuestion(3, "A disgusting humanoid presence lumbers towards and", 3, finalBoss)
     livingRoom.add_entity_on_location(ghost)
     kitchen.add_entity_on_location(zombie)
+    attic.add_entity_on_location(lesserDemon)
 
-    if ghost.check_alive() is False:
-        ghost = None
+    #if ghost.check_alive() is False:
+        #ghost = None
         #livingRoom.remove_entity_on_location(ghost)
         #livingRoom.remove_enemy_on_location(ghost)
-    if zombie.check_alive() is False:
-        zombie = None
+    #if zombie.check_alive() is False:
+        #zombie = None
         #kitchen.remove_entity_on_location(zombie)
         #kitchen.remove_enemy_on_location(zombie)
 
