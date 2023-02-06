@@ -9,6 +9,7 @@ yourBedroom.change_west(livingRoom)
 yourBedroom.change_east(kitchen)
 livingRoom.change_south(attic)
 livingRoom.change_east(yourBedroom)
+kitchen.change_west(yourBedroom)
 player = Player(1, "test", 3, yourBedroom)
 
 class GoLogic(Logic):
