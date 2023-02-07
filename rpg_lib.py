@@ -172,7 +172,7 @@ class Player:
             if i != None and direction in directions:
                 if newLocation.id == i.id:
                     self.currentLocation = i
-                    print("You've gone to {}".format(self.currentLocation.name))
+                    print("You've gone to \n----------\n{}\n----------".format(self.currentLocation.name))
                     return None
                 #print("There's no such location.")
     

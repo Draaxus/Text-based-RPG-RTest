@@ -1,11 +1,11 @@
 from rpg_lib import Location, Player, Game, Item, EnemyQuestion, QuestionHandler, Question, Logic, NPC, Quest, QuestItem
 from typing import Type
 
-yourBedroom = Location(id=0, name="your bedroom", description="This is your cozy little bedroom.", items=[], entities=[])
-livingRoom = Location(id=1, name="the living room", description="You enter the living room you've known all your life, it seems to be in disarray.", items=[], entities=[])
-kitchen = Location(id=2, name="the kitchen", description="You enter the kitchen opposite of the living room, it's a mess.", items=[], entities=[])
-attic = Location(id=3, name="the attic", description="You've eliminated the Lesser Demon, the source of all this. \nCheck the window to see the state of the world.", items=[], entities=[])
-window = Location (id=4,name="the attic window", description="A blinding light fills your vision. \nIt was all a dream. \nThe end.", items=[], entities=[])
+yourBedroom = Location(id=0, name="YOUR BEDROOM", description="This is your cozy little bedroom.", items=[], entities=[])
+livingRoom = Location(id=1, name="THE LIVING ROOM", description="You enter the living room you've known all your life, it seems to be in disarray.", items=[], entities=[])
+kitchen = Location(id=2, name="THE KITCHEN", description="You enter the kitchen opposite of the living room, it's a mess.", items=[], entities=[])
+attic = Location(id=3, name="THE ATTIC", description="You've eliminated the Lesser Demon, the source of all this. \nCheck the window to see the state of the world.", items=[], entities=[])
+window = Location (id=4,name="THE ATTIC WINDOW", description="A blinding light fills your vision. \nIt was all a dream. \nThe end.", items=[], entities=[])
 hiddenRoom = Location(id=5, name="a hidden room in the kitchen", description="It seems there was a hidden room in the kitchen.", items=[], entities=[])
 secretTunnel = Location(id=6, name="a secret tunnel", description="The hidden room lead you to a secret tunnel?", items=[], entities=[])
 treasureRoom = Location(id=7, name="a treasure room at the end of the tunnel.", description="What seems to be a room full of treasure awaits you. \nWhat's this place doing in your house?", items=[], entities=[])
@@ -21,7 +21,8 @@ hiddenRoom.change_south(secretTunnel)
 secretTunnel.change_north(hiddenRoom)
 secretTunnel.change_south(treasureRoom)
 treasureRoom.change_north(secretTunnel)
-attic.change_north(window)
+attic.change_south(window)
+attic.change_north(livingRoom)
 player = Player(1, "test", 3, yourBedroom)
 
 class GoLogic(Logic):
@@ -160,7 +161,7 @@ game.add_command("inventory", CheckInventoryLogic())
 game.add_command("talk", TalkLogic())
 
 if __name__ == '__main__':
-    playerName = str(input("What is your name, young one? "))
+    playerName = str(input("Welcome to...\n---------------\nW A K E  U P !\nA text-based RPG\n---------------\nWhat is your name, young one? "))
     player.set_name(playerName)
     print("I see, nice to meet you {}!".format(player.get_name()))
     game.run()
