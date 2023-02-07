@@ -1,5 +1,7 @@
 # Text-based-RPG
  A college project based on Python.
+ 
+Make sure to enter "describe" everytime you eneter a new room or AFTER you defeat an enemy! (Using describe during a fight will cause you to input it as an answer and lose health)
 
 Answers:  
 What's 1+1? "2"  
