@@ -3,11 +3,11 @@
  
  Commands:  
  describe  
- go <direction>    
- use <item>  
- talk <exact name>    
+ go (direction)    
+ use (item)  
+ talk (exact name)    
  inventory  
- take <exact item name>    
+ take (exact item name)    
  
 Make sure to enter "describe" everytime you eneter a new room or AFTER you defeat an enemy! (Using describe during a fight will cause you to input it as an answer and lose health)
 
